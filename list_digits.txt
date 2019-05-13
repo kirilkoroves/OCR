@@ -1,0 +1,55 @@
+/home/kiril/Downloads/SDB Device Output Images/processed/image47.jpg
+688
+/home/kiril/Downloads/SDB Device Output Images/processed/image43.jpg
+.759
+/home/kiril/Downloads/SDB Device Output Images/processed/image2.jpg
+833
+/home/kiril/Downloads/SDB Device Output Images/processed/image40.jpg
+0
+/home/kiril/Downloads/SDB Device Output Images/processed/image44.jpg
+.55
+/home/kiril/Downloads/SDB Device Output Images/processed/image31.jpg
+64
+/home/kiril/Downloads/SDB Device Output Images/processed/image4.jpg
+.79
+/home/kiril/Downloads/SDB Device Output Images/processed/image36.jpg
+.74
+/home/kiril/Downloads/SDB Device Output Images/processed/image28.jpg
+.68
+/home/kiril/Downloads/SDB Device Output Images/processed/image5.jpg
+3
+/home/kiril/Downloads/SDB Device Output Images/processed/image19.jpg
+.7
+/home/kiril/Downloads/SDB Device Output Images/processed/image24.jpg
+7.9
+/home/kiril/Downloads/SDB Device Output Images/processed/image39.jpg
+.00
+/home/kiril/Downloads/SDB Device Output Images/processed/image15.jpg
+.75
+/home/kiril/Downloads/SDB Device Output Images/processed/image3.jpg
+8.9
+/home/kiril/Downloads/SDB Device Output Images/processed/image17.jpg
+.3
+/home/kiril/Downloads/SDB Device Output Images/processed/image1.jpg
+.7
+/home/kiril/Downloads/SDB Device Output Images/processed/image45.jpg
+0.8
+/home/kiril/Downloads/SDB Device Output Images/processed/image25.jpg
+.04
+/home/kiril/Downloads/SDB Device Output Images/processed/image49.jpg
+3
+/home/kiril/Downloads/SDB Device Output Images/processed/image7.jpg
+7.4
+/home/kiril/Downloads/SDB Device Output Images/processed/image100.jpg
+.0
+/home/kiril/Downloads/SDB Device Output Images/processed/image50.jpg
+.75
+/home/kiril/Downloads/SDB Device Output Images/processed/image54.jpg
+.9
+/home/kiril/Downloads/SDB Device Output Images/processed/image37.jpg
+.0
+/home/kiril/Downloads/SDB Device Output Images/processed/image21.jpg
+.3
+/home/kiril/Downloads/SDB Device Output Images/processed/image8.jpg
+.73
+
