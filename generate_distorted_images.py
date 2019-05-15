@@ -60,7 +60,7 @@ def process_directory(folder):
 
 
 def main():
-    for img_file in ['training/6/6_3.jpg','training/6/6_4.jpg', 'training/6/6_5.jpg', 'training/6/6_6.jpg', 'training/6/6_7.jpg', 'training/6/6_8.jpg', 'training/6/6_9.jpg', 'training/7/7_3.jpg','training/7/7_4.jpg', 'training/7/7_5.jpg', 'training/7/7_6.jpg', 'training/7/7_7.jpg', 'training/7/7_8.jpg', 'training/8/8_4.jpg', 'training/8/8_5.jpg', 'training/8/8_6.jpg', 'training/8/8_7.jpg', 'training/9/9_3.jpg','training/9/9_4.jpg', 'training/9/9_5.jpg', 'training/9/9_6.jpg', 'training/9/9_7.jpg', 'training/9/9_8.jpg', 'training/9/9_9.jpg']:
+    for img_file in ['training/9/9_13.jpg', 'training/9/9_14.jpg']:
 	show_distorted(img_file, False, True)
     # For use if you want to generate extra images for all files in a directory
     # process_directory('training/8/')

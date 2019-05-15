@@ -49,12 +49,10 @@ class FrameProcessor:
         self.img = self.original.copy()
 
         debug_images = []
-
-        # Adjust the exposure
-
-        # Convert to grayscale
+	        
+	
         img2gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
-
+	
         # Blur to reduce noise
         img_blurred = cv2.GaussianBlur(img2gray, (blur, blur), 0)
         debug_images.append(('Blurred', img_blurred))
@@ -129,7 +127,7 @@ class FrameProcessor:
 
             # If the contour is of decent size and fits the aspect ratios we want, we'll save it
             if ((size > 14000 and aspect >= desired_aspect - aspect_buffer and aspect <= desired_aspect + aspect_buffer) or
-                (size > 10000 and aspect >= digit_one_aspect - aspect_buffer and aspect <= digit_one_aspect + aspect_buffer)):
+                (size > 5000 and aspect >= digit_one_aspect - aspect_buffer and aspect <= digit_one_aspect + aspect_buffer)):
                 # Keep track of the height and y position so we can run averages later
                 total_digit_height += h
                 total_digit_y += y

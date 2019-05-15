@@ -17,7 +17,7 @@ adjustment = ProcessingVariables.adjustment
 iterations = ProcessingVariables.iterations
 blur = 7
 
-version = '_2_1'
+version = '_2_2'
 test_folder = '/home/kiril/Downloads/SDB Device Output Images/processed'
 
 frameProcessor = FrameProcessor(std_height, version, False, write_digits=False)
@@ -26,14 +26,26 @@ frameProcessor = FrameProcessor(std_height, version, False, write_digits=False)
 def test_img(path, show_result=True):
     frameProcessor.set_image(path)
     output = ""
-    for erode in [3,4,5]:   	
-	debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
-	if '.' in output and len(output) == 4:
-		output = remove_duplicate_chars(output)
-	elif '.' not in output and len(output) == 3:
-		output = remove_duplicate_chars(output)
-	if output != '' and (len(output) == 2 or len(output) == 3) and (check_instance(output, float) or check_instance(output, int)):
+    break_fully = False
+    output = ''
+    for blur in [3,4,5,6,7,8,9]:
+	if break_fully:
 		break
+    	for erode in [2,3,4,5,6,7]:
+		if break_fully:
+			break
+		for iterations in [2,3,4]:
+			try:	
+				debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
+				if '.' in output and len(output) == 4:
+					output = remove_duplicate_chars(output)
+				elif '.' not in output and len(output) == 3:
+					output = remove_duplicate_chars(output)
+				if output != '' and ((len(output) == 2 and '.' not in output) or (len(output) == 3 and '.' in output) ) and (check_instance(output, float) or check_instance(output, int)):
+					break_fully = True			
+					break
+			except:
+				output = output
     if '.' not in output and len(output) == 2 and check_instance(output, int):
 	output = int(output) * 1.0 / 10
     elif len(output) == 3 and output[0] == '.' and check_instance(output, float):
@@ -65,13 +77,13 @@ def check_instance(val, val_type):
 		return False
 		
 
-def run_tests(show_result=True):
+def run_tests(show_result=False):
     count = 0
     correct = 0
 
     start_time = time.time()
-    for i in range(55):
-        i = i + 1
+    for i in range(58):
+        i = i + 58
         test_img(test_folder + '/' + "image"+str(i)+'.jpg', show_result)
 
 
