@@ -6,7 +6,7 @@ from ImageProcessing import FrameProcessor, ProcessingVariables
 from DisplayUtils.TileDisplay import show_img, reset_tiles
 
 window_name = 'Playground'
-file_name = '/home/kiril/Downloads/SDB Device Output Images/processed/image33.jpg'
+file_name = '/home/kiril/Downloads/SDB Device Output Images/processed/image6.jpg'
 version = '_2_1'
 
 erode = 4
@@ -33,15 +33,21 @@ def main():
 def process_image():
     reset_tiles()
     start_time = time.time()
-    for erode in [3,4,5]:   	
-	debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
-	if '.' in output and len(output) == 4:
-		output = remove_duplicate_chars(output)
-	elif '.' not in output and len(output) == 3:
-		output = remove_duplicate_chars(output)
-	print output
-	if output != '' and (len(output) == 2 or len(output) == 3) and (check_instance(output, float) or check_instance(output, int)):
-		break
+    break_fully = False
+    for erode in [3,4,5,6,7]:
+	if break_fully:
+		break   
+	for iterations in [2,3,4]:
+		print "Erode:"+str(erode)
+		print "Iterations:"+str(iterations)	
+		debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
+		if '.' in output and len(output) == 4:
+			output = remove_duplicate_chars(output)
+		elif '.' not in output and len(output) == 3:
+			output = remove_duplicate_chars(output)
+		if output != '' and ((len(output) == 2 and '.' not in output) or (len(output) == 3 and '.' in output) ) and (check_instance(output, float) or check_instance(output, int)):
+			break_fully = True			
+			break
     for image in debug_images:
        show_img(image[0], image[1])
 

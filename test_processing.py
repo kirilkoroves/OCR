@@ -17,7 +17,7 @@ adjustment = ProcessingVariables.adjustment
 iterations = ProcessingVariables.iterations
 blur = 7
 
-version = '_2_0'
+version = '_2_1'
 test_folder = '/home/kiril/Downloads/SDB Device Output Images/processed'
 
 frameProcessor = FrameProcessor(std_height, version, False, write_digits=False)
@@ -25,9 +25,21 @@ frameProcessor = FrameProcessor(std_height, version, False, write_digits=False)
 
 def test_img(path, show_result=True):
     frameProcessor.set_image(path)
-    (debug_images, calculated) = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
+    output = ""
+    for erode in [3,4,5]:   	
+	debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
+	if '.' in output and len(output) == 4:
+		output = remove_duplicate_chars(output)
+	elif '.' not in output and len(output) == 3:
+		output = remove_duplicate_chars(output)
+	if output != '' and (len(output) == 2 or len(output) == 3) and (check_instance(output, float) or check_instance(output, int)):
+		break
+    if '.' not in output and len(output) == 2 and check_instance(output, int):
+	output = int(output) * 1.0 / 10
+    elif len(output) == 3 and output[0] == '.' and check_instance(output, float):
+	output = float(output) * 100 * 1.0 / 10
     print(path)
-    print(calculated)
+    print(output)
 
 
 def get_expected_from_filename(filename):
@@ -36,14 +48,31 @@ def get_expected_from_filename(filename):
     expected = expected.replace('Z', '')
     return expected
 
+def remove_duplicate_chars(output):
+	s = []	
+	for i in range(0, len(output)):
+		char = output[i]
+		if char not in s and char not in output[i+1:i+2]:
+			s.append(char)
+	return "".join(s)
+
+
+def check_instance(val, val_type):
+	try:	
+		val_type(val)
+		return True
+	except:
+		return False
+		
 
 def run_tests(show_result=True):
     count = 0
     correct = 0
 
     start_time = time.time()
-    for file_name in os.listdir(test_folder):
-        test_img(test_folder + '/' + file_name, show_result)
+    for i in range(55):
+        i = i + 1
+        test_img(test_folder + '/' + "image"+str(i)+'.jpg', show_result)
 
 
 def main():
