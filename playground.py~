@@ -9,7 +9,7 @@ window_name = 'Playground'
 file_name = '/home/kiril/Downloads/SDB Device Output Images/processed/image59.jpg'
 version = '_2_2'
 
-erode = 2
+erode = 4
 threshold = ProcessingVariables.threshold
 adjustment = ProcessingVariables.adjustment
 iterations = ProcessingVariables.iterations
