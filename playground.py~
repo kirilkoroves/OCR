@@ -6,16 +6,16 @@ from ImageProcessing import FrameProcessor, ProcessingVariables
 from DisplayUtils.TileDisplay import show_img, reset_tiles
 
 window_name = 'Playground'
-file_name = '/home/kiril/Downloads/SDB Device Output Images/processed/image59.jpg'
+file_name = '5.jpg'
 version = '_2_2'
 
-erode = 4
+erode = 2
 threshold = ProcessingVariables.threshold
 adjustment = ProcessingVariables.adjustment
 iterations = ProcessingVariables.iterations
 blur = 1
 
-std_height = 200
+std_height = 400
 
 frameProcessor = FrameProcessor(std_height, version, True)
 
@@ -25,7 +25,8 @@ def main():
     if len(sys.argv) == 2:
         img_file = sys.argv[1]
     setup_ui()
-    frameProcessor.set_image(img_file)
+    img = cv2.imread(file_name)
+    frameProcessor.set_image(img)
     process_image()
     cv2.waitKey()
 

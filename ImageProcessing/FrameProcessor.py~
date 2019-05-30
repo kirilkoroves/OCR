@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import os
-from ImageProcessing.OpenCVUtils import inverse_colors, sort_contours
+from OpenCVUtils import inverse_colors, sort_contours
+from warp.runtime import config
 
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
@@ -9,16 +10,16 @@ CROP_DIR = 'crops'
 
 
 def increase_brightness(img, value=30):
-    	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    	h, s, v = cv2.split(hsv)
-	
-    	lim = 255 - value
-    	v[v > lim] = 255
-    	v[v <= lim] += value
-	
-    	final_hsv = cv2.merge((h, s, v))
-    	img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-    	return img
+	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+	h, s, v = cv2.split(hsv)
+
+	lim = 255 - value
+	v[v > lim] = 255
+	v[v <= lim] += value
+
+	final_hsv = cv2.merge((h, s, v))
+	img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+	return img
 
 def average_brightness(img):
 	hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -26,7 +27,7 @@ def average_brightness(img):
 	return a
 
 class FrameProcessor:
-    def __init__(self, height, version, debug=False, write_digits=False):
+    def __init__(self, height, version, debug=False, write_digits=True):
         self.debug = debug
         self.version = version
         self.height = height
@@ -34,26 +35,15 @@ class FrameProcessor:
         self.img = None
         self.width = 0
         self.original = None
-        self.write_digits = write_digits
-	self.min_canny = 100
-	self.max_canny = 200
-	self.brightness = 0
+        self.write_digits = True
+        self.min_canny = 100
+        self.max_canny = 200
+        self.brightness = 0
         self.knn = self.train_knn(self.version)
 
-    def set_image(self, file_name):
-        self.file_name = file_name
-        self.img = cv2.imread(file_name)
-	height, width, channels = self.img.shape
-	#if height < 200 and width < 200:
-	#	self.min_canny = 50
-	#	self.max_canny = 100
-	reduce_height = height*15/100
-	reduce_width = width*50/100
-	self.img = self.img[reduce_height:height-reduce_height, reduce_width:width]
-	if average_brightness(self.img) < 160:
-		self.brightness = 30
-	if average_brightness(self.img) < 110:
-		self.brightness = 70
+    def set_image(self, img):
+        self.img = img
+        height, width, channels = self.img.shape
         self.original, self.width = self.resize_to_height(self.height)
         self.img = self.original.copy()
 
@@ -77,10 +67,8 @@ class FrameProcessor:
     def process_image(self, blur, threshold, adjustment, erode, iterations):
 
         self.img = self.original.copy()
-	self.img = increase_brightness(self.img, self.brightness)
+        self.img = increase_brightness(self.img, self.brightness)
         debug_images = []
-	        
-	print average_brightness(self.img)
         img2gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
 	
         # Blur to reduce noise
@@ -142,7 +130,7 @@ class FrameProcessor:
             size = w * h
 
             # It's a square, save the contour as a potential digit
-            if size > 100 and aspect >= 1 - .3 and aspect <= 1 + .3:
+            if size > 500 and aspect >= 1 - .3 and aspect <= 1 + .3:
                 potential_decimals.append(contour)
 
             # If it's small and it's not a square, kick it out
@@ -203,9 +191,7 @@ class FrameProcessor:
 
                 # Helper code to write out the digit image file for use in KNN training
                 if self.write_digits:
-                    _, full_file = os.path.split(self.file_name)
-                    file_name = full_file.split('.')
-                    crop_file_path = CROP_DIR + '/' + digit + '_' + file_name[0] + '_crop_' + str(ix) + '.png'
+                    crop_file_path = CROP_DIR + '/' + digit + '_' + self.file_name + '_crop_' + str(ix) + '.png'
                     cv2.imwrite(crop_file_path, cropped)
 
                 # Track the x positions of where the digits are
@@ -239,20 +225,7 @@ class FrameProcessor:
                 output = output[:ix] + '.' + output[ix:]
                 break
 
-        # Debugging to show the left/right digit x positions
-        if self.debug:
-            cv2.rectangle(self.img, (left_most_digit, int(avg_digit_y)),
-                          (left_most_digit + right_most_digit - left_most_digit,
-                           int(avg_digit_y) + int(avg_digit_height)),
-                          (66, 244, 212), 2)
-
-        # Log some information
-        if self.debug:
-            print("Potential Digits " + str(len(potential_digits)))
-            print("Potential Decimals " + str(len(potential_decimals)))
-            print("String: " + output)
-
-        return debug_images, output
+        return debug_images,output
 
     # Predict the digit from an image using KNN
     def predict_digit(self, digit_mat):
@@ -267,4 +240,5 @@ class FrameProcessor:
         if predicted_digit == 'A':
             predicted_digit = '.'
         return predicted_digit
+
 

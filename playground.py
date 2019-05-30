@@ -6,7 +6,7 @@ from ImageProcessing import FrameProcessor, ProcessingVariables
 from DisplayUtils.TileDisplay import show_img, reset_tiles
 
 window_name = 'Playground'
-file_name = '/home/kiril/Downloads/SDB Device Output Images/processed/image59.jpg'
+file_name = '5.jpg'
 version = '_2_2'
 
 erode = 2
@@ -15,7 +15,7 @@ adjustment = ProcessingVariables.adjustment
 iterations = ProcessingVariables.iterations
 blur = 1
 
-std_height = 200
+std_height = 400
 
 frameProcessor = FrameProcessor(std_height, version, True)
 
@@ -25,7 +25,8 @@ def main():
     if len(sys.argv) == 2:
         img_file = sys.argv[1]
     setup_ui()
-    frameProcessor.set_image(img_file)
+    img = cv2.imread(file_name)
+    frameProcessor.set_image(img)
     process_image()
     cv2.waitKey()
 
@@ -36,7 +37,7 @@ def process_image():
     break_fully = False
     output = ''
     debug_images = []
-    for blur in [1,2,3,4,5,6,7,8,9]:
+    for blur in [1,3,5,7,9]:
 	print(break_fully)
 	if break_fully:
 		break
@@ -44,9 +45,6 @@ def process_image():
 		if break_fully:
 			break
 		for iterations in [1,2,3,4]:
-			print "Blur:"+str(blur)
-			print "Erode:"+str(erode)
-			print "Iterations:"+str(iterations)
 			try:	
 				debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
 				if '.' in output and len(output) == 4:

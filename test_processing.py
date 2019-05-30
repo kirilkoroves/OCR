@@ -1,5 +1,6 @@
 import os
 import time
+import cv2
 
 from DisplayUtils.Colors import bcolors
 from ImageProcessing import FrameProcessor, ProcessingVariables
@@ -18,23 +19,26 @@ iterations = ProcessingVariables.iterations
 blur = 7
 
 version = '_2_2'
-test_folder = '/home/kiril/Downloads/SDB Device Output Images/processed'
+test_folder = ''
 
-frameProcessor = FrameProcessor(std_height, version, False, write_digits=False)
+frameProcessor = FrameProcessor(std_height, version, False, write_digits=True)
 
 
 def test_img(path, show_result=True):
-    frameProcessor.set_image(path)
+    img = cv2.imread(path)
+    frameProcessor.set_image(img)
+    frameProcessor.set_file_name(path.replace(".jpg",""))
     output = ""
     break_fully = False
     output = ''
     for blur in [1,3,5,7,9]:
+	print(break_fully)
 	if break_fully:
 		break
-    	for erode in [2,3,4,5,6,7]:
+    	for erode in [1,2,3,4,5,6,7]:
 		if break_fully:
 			break
-		for iterations in [2,3,4]:
+		for iterations in [1,2,3,4]:
 			try:	
 				debug_images, output = frameProcessor.process_image(blur, threshold, adjustment, erode, iterations)
 				if '.' in output and len(output) == 4:
@@ -42,14 +46,11 @@ def test_img(path, show_result=True):
 				elif '.' not in output and len(output) == 3:
 					output = remove_duplicate_chars(output)
 				if output != '' and ((len(output) == 2 and '.' not in output) or (len(output) == 3 and '.' in output) ) and (check_instance(output, float) or check_instance(output, int)):
+					print("Output:"+output)
 					break_fully = True			
 					break
 			except:
 				output = output
-    if '.' not in output and len(output) == 2 and check_instance(output, int):
-	output = int(output) * 1.0 / 10
-    elif len(output) == 3 and output[0] == '.' and check_instance(output, float):
-	output = float(output) * 100 * 1.0 / 10
     print(path)
     print(output)
 
@@ -82,9 +83,9 @@ def run_tests(show_result=False):
     correct = 0
 
     start_time = time.time()
-    for i in range(58):
-        i = i + 58
-        test_img(test_folder + '/' + "image"+str(i)+'.jpg', show_result)
+    for i in range(57):
+        i = i + 2
+        test_img(str(i)+'.jpg', show_result)
 
 
 def main():
