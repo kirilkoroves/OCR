@@ -17,7 +17,7 @@ blur = 1
 
 std_height = 400
 
-frameProcessor = FrameProcessor(std_height, version, True)
+frameProcessor = FrameProcessor(std_height, version, True, True)
 
 
 def main():

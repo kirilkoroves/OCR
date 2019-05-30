@@ -155,6 +155,7 @@ class FrameProcessor:
                 potential_digits.append(contour)
             else:
                 if self.debug:
+		    print(size)
                     cv2.rectangle(self.img, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         avg_digit_height = 0

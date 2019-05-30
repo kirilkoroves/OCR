@@ -5,7 +5,7 @@ import cv2
 from DisplayUtils.Colors import bcolors
 from ImageProcessing import FrameProcessor, ProcessingVariables
 
-std_height = 500
+std_height = 400
 
 # thresh = 73  # 1-50 mod 2 25
 # erode = 3  # 3-4 2
@@ -18,7 +18,7 @@ adjustment = ProcessingVariables.adjustment
 iterations = ProcessingVariables.iterations
 blur = 7
 
-version = '_2_2'
+version = '_2_3'
 test_folder = ''
 
 frameProcessor = FrameProcessor(std_height, version, False, write_digits=True)
@@ -26,13 +26,13 @@ frameProcessor = FrameProcessor(std_height, version, False, write_digits=True)
 
 def test_img(path, show_result=True):
     img = cv2.imread(path)
-    frameProcessor.set_image(img.replace(".jpg",""))
-    frameProcessor.set_file_name(path)
+    frameProcessor.set_image(img)
+    frameProcessor.set_file_name(path.replace(".jpg",""))
     output = ""
     break_fully = False
     output = ''
+    print(path)
     for blur in [1,3,5,7,9]:
-	print(break_fully)
 	if break_fully:
 		break
     	for erode in [1,2,3,4,5,6,7]:
@@ -46,12 +46,10 @@ def test_img(path, show_result=True):
 				elif '.' not in output and len(output) == 3:
 					output = remove_duplicate_chars(output)
 				if output != '' and ((len(output) == 2 and '.' not in output) or (len(output) == 3 and '.' in output) ) and (check_instance(output, float) or check_instance(output, int)):
-					print("Output:"+output)
 					break_fully = True			
 					break
 			except:
 				output = output
-    print(path)
     print(output)
 
 
@@ -83,8 +81,8 @@ def run_tests(show_result=False):
     correct = 0
 
     start_time = time.time()
-    for i in range(57):
-        i = i + 2
+    for i in range(12):
+        i = i + 1
         test_img(str(i)+'.jpg', show_result)
 
 

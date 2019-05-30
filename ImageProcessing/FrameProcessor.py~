@@ -47,6 +47,9 @@ class FrameProcessor:
         self.original, self.width = self.resize_to_height(self.height)
         self.img = self.original.copy()
 
+    def set_file_name(self, file_name):
+        self.file_name = file_name
+
     def resize_to_height(self, height):
         r = self.img.shape[0] / float(height)
         dim = (int(self.img.shape[1] / r), height)
@@ -144,7 +147,7 @@ class FrameProcessor:
                 continue
 
             # If the contour is of decent size and fits the aspect ratios we want, we'll save it
-            if ((size < 40000 and size > 12000 and aspect >= desired_aspect - aspect_buffer and aspect <= desired_aspect + aspect_buffer) or
+            if ((size < 40000 and size > 7000 and aspect >= desired_aspect - aspect_buffer and aspect <= desired_aspect + aspect_buffer) or
                 (size > 5000 and aspect >= digit_one_aspect - aspect_buffer and aspect <= digit_one_aspect + aspect_buffer)):
                 # Keep track of the height and y position so we can run averages later
                 total_digit_height += h
@@ -152,6 +155,7 @@ class FrameProcessor:
                 potential_digits.append(contour)
             else:
                 if self.debug:
+		    print(size)
                     cv2.rectangle(self.img, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         avg_digit_height = 0
